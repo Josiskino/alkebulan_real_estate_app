@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import '../../../widgets/shimmer_widget.dart';
 
 class PropertyCard extends StatelessWidget {
   final String image;
@@ -51,30 +53,20 @@ class PropertyCard extends StatelessWidget {
                     topLeft: Radius.circular(12),
                     topRight: Radius.circular(12),
                   ),
-                  child: Image.network(
-                    image,
+                  child: CachedNetworkImage(
+                    imageUrl: image,
                     height: 120,
                     width: 220,
                     fit: BoxFit.cover,
-                    loadingBuilder: (context, child, loadingProgress) {
-                      if (loadingProgress == null) return child;
-                      return Container(
-                        height: 120,
-                        width: 220,
-                        color: Colors.grey[300],
-                        child: const Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      );
-                    },
-                    errorBuilder: (context, error, stackTrace) {
-                      return Container(
-                        height: 120,
-                        width: 220,
-                        color: Colors.grey[300],
-                        child: const Icon(Icons.error),
-                      );
-                    },
+                    placeholder: (context, url) => ShimmerWidget.rectangular(
+                      height: 120,
+                    ),
+                    errorWidget: (context, url, error) => Container(
+                      height: 120,
+                      width: 220,
+                      color: Colors.grey[300],
+                      child: const Icon(Icons.error, color: Colors.red),
+                    ),
                   ),
                 ),
                 // Favorite button

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import '../../../widgets/shimmer_widget.dart';
 
 class NearbyPropertyCard extends StatelessWidget {
   final String image;
@@ -31,30 +33,21 @@ class NearbyPropertyCard extends StatelessWidget {
               // Property image
               ClipRRect(
                 borderRadius: BorderRadius.circular(12),
-                child: Image.network(
-                  image,
+                child: CachedNetworkImage(
+                  imageUrl: image,
                   width: 110,
                   height: 110,
                   fit: BoxFit.cover,
-                  loadingBuilder: (context, child, loadingProgress) {
-                    if (loadingProgress == null) return child;
-                    return Container(
-                      width: 110,
-                      height: 110,
-                      color: Colors.grey[300],
-                      child: const Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                    );
-                  },
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      width: 110,
-                      height: 110,
-                      color: Colors.grey[300],
-                      child: const Icon(Icons.error),
-                    );
-                  },
+                  placeholder: (context, url) => ShimmerWidget.rounded(
+                    width: 110,
+                    height: 110,
+                  ),
+                  errorWidget: (context, url, error) => Container(
+                    width: 110,
+                    height: 110,
+                    color: Colors.grey[300],
+                    child: const Icon(Icons.error, color: Colors.red),
+                  ),
                 ),
               ),
               const SizedBox(width: 12),

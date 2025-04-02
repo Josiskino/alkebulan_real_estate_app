@@ -1,4 +1,7 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import '../../../widgets/shimmer_widget.dart';
 
 class ImageSlider extends StatefulWidget {
   final List<String> images;
@@ -15,33 +18,51 @@ class ImageSlider extends StatefulWidget {
 }
 
 class _ImageSliderState extends State<ImageSlider> {
-  final PageController _pageController = PageController(initialPage: 1000);
+  late final PageController _pageController;
   int _currentPage = 0;
+  Timer? _autoSlideTimer;
+  bool _isSliding = false;
 
   @override
   void initState() {
     super.initState();
-    // Auto-slide every 3 seconds
+    // Set initial page at a large offset to create illusion of infinite scrolling
+    _pageController = PageController(initialPage: 1000 % widget.images.length);
+    // Start auto-slide after a delay
     Future.delayed(const Duration(milliseconds: 500), () {
-      _startAutoSlide();
+      if (mounted) {
+        _startAutoSlide();
+      }
     });
   }
 
   void _startAutoSlide() {
-    Future.delayed(const Duration(seconds: 3), () {
-      if (_pageController.hasClients) {
-        // Just move to the next page, PageView.builder will handle wrap-around
-        _pageController.nextPage(
+    // Cancel any existing timer
+    _autoSlideTimer?.cancel();
+
+    // Create a new timer that fires every 3 seconds
+    _autoSlideTimer = Timer.periodic(const Duration(seconds: 3), (timer) {
+      if (_pageController.hasClients && mounted && !_isSliding) {
+        _isSliding = true;
+        _pageController
+            .nextPage(
           duration: const Duration(milliseconds: 800),
           curve: Curves.easeInOut,
-        );
-        _startAutoSlide();
+        )
+            .then((_) {
+          if (mounted) {
+            setState(() {
+              _isSliding = false;
+            });
+          }
+        });
       }
     });
   }
 
   @override
   void dispose() {
+    _autoSlideTimer?.cancel();
     _pageController.dispose();
     super.dispose();
   }
@@ -57,16 +78,13 @@ class _ImageSliderState extends State<ImageSlider> {
           // Page View of Images
           PageView.builder(
             controller: _pageController,
-            // Using infinite items
-            itemCount: null, // Infinite
+            itemCount: null, // Infinite scrolling
             onPageChanged: (index) {
               setState(() {
-                // Get the modulo to map to our actual images
                 _currentPage = index % widget.images.length;
               });
             },
             itemBuilder: (context, index) {
-              // Map the infinite index to our actual image list
               final imageIndex = index % widget.images.length;
               return Container(
                 decoration: BoxDecoration(
@@ -80,19 +98,14 @@ class _ImageSliderState extends State<ImageSlider> {
                     ),
                   ],
                 ),
-                child: Image.network(
-                  widget.images[imageIndex],
+                child: CachedNetworkImage(
+                  imageUrl: widget.images[imageIndex],
                   fit: BoxFit.cover,
                   width: double.infinity,
-                  loadingBuilder: (context, child, loadingProgress) {
-                    if (loadingProgress == null) return child;
-                    return Center(
-                      child: CircularProgressIndicator(
-                        color: Colors.blue[600],
-                      ),
-                    );
-                  },
-                  errorBuilder: (context, error, stackTrace) {
+                  placeholder: (context, url) => ShimmerWidget.rectangular(
+                    height: widget.height,
+                  ),
+                  errorWidget: (context, error, stackTrace) {
                     return Center(
                       child: Icon(Icons.error, color: Colors.grey[600]),
                     );

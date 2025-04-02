@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'presentation/views/starter_screen.dart';
+import 'presentation/views/starter/starter_screen.dart';
 void main() {
   runApp(const MyApp());
 }

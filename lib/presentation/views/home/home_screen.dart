@@ -3,7 +3,7 @@ import 'widgets/location_header.dart';
 import 'widgets/notification_icon.dart';
 import 'widgets/search_bar_with_filter.dart';
 import 'widgets/property_category_item.dart';
-import 'widgets/property_card.dart';
+import 'widgets/property_card_3d.dart';
 import 'widgets/property_card_shimmer.dart';
 import 'widgets/nearby_property_card.dart';
 import 'widgets/nearby_property_card_shimmer.dart';
@@ -23,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen>
   bool _isLoading = true;
   late AnimationController _fadeController;
   late Animation<double> _fadeAnimation;
+  final ScrollController _recommendedScrollController = ScrollController();
 
   final List<String> _sliderImages = [
     'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
@@ -37,6 +38,54 @@ class _HomeScreenState extends State<HomeScreen>
     {'icon': Icons.villa_outlined, 'label': 'Villa'},
     {'icon': Icons.apartment_outlined, 'label': 'Apartment'},
     {'icon': Icons.holiday_village_outlined, 'label': 'Bungalow'},
+  ];
+
+  final List<Map<String, dynamic>> _recommendedProperties = [
+    {
+      'image':
+          'https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
+      'type': 'Apartment',
+      'name': 'Woodland Apartments',
+      'location': 'New York, USA',
+      'price': 1500,
+      'rating': 4.5,
+    },
+    {
+      'image':
+          'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
+      'type': 'Home',
+      'name': 'Oakleaf Cottage',
+      'location': 'New York, USA',
+      'price': 900,
+      'rating': 4.2,
+    },
+    {
+      'image':
+          'https://images.unsplash.com/photo-1493809842364-78817add7ffb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
+      'type': 'Villa',
+      'name': 'Skyview Residence',
+      'location': 'New York, USA',
+      'price': 2200,
+      'rating': 4.8,
+    },
+    {
+      'image':
+          'https://images.unsplash.com/photo-1558036117-15d82a90b9b1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
+      'type': 'Apartment',
+      'name': 'Urban Loft',
+      'location': 'New York, USA',
+      'price': 1300,
+      'rating': 4.0,
+    },
+    {
+      'image':
+          'https://images.unsplash.com/photo-1513584684374-8bab748fbf90?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
+      'type': 'Bungalow',
+      'name': 'Sunset Retreat',
+      'location': 'New York, USA',
+      'price': 1800,
+      'rating': 4.6,
+    },
   ];
 
   @override
@@ -70,6 +119,7 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   void dispose() {
     _fadeController.dispose();
+    _recommendedScrollController.dispose();
     super.dispose();
   }
 
@@ -172,7 +222,7 @@ class _HomeScreenState extends State<HomeScreen>
               ),
             ),
 
-            // Recommended property cards
+            // Recommended property cards with 3D effect
             SizedBox(
               height: 260,
               child: _isLoading
@@ -193,90 +243,37 @@ class _HomeScreenState extends State<HomeScreen>
                     )
                   : FadeTransition(
                       opacity: _fadeAnimation,
-                      child: ListView(
+                      child: ListView.builder(
+                        controller: _recommendedScrollController,
                         scrollDirection: Axis.horizontal,
                         padding: const EdgeInsets.symmetric(horizontal: 16),
-                        children: [
-                          PropertyCard(
-                            image:
-                                'https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
-                            type: 'Apartment',
-                            name: 'Woodland Apartments',
-                            location: 'New York, USA',
-                            price: 1500,
-                            rating: 4.5,
-                            onTap: () {
-                              // Handle property tap
-                            },
-                            onFavoriteToggle: () {
-                              // Handle favorite toggle
-                            },
-                          ),
-                          const SizedBox(width: 16),
-                          PropertyCard(
-                            image:
-                                'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
-                            type: 'Home',
-                            name: 'Oakleaf Cottage',
-                            location: 'New York, USA',
-                            price: 900,
-                            rating: 4.2,
-                            onTap: () {
-                              // Handle property tap
-                            },
-                            onFavoriteToggle: () {
-                              // Handle favorite toggle
-                            },
-                          ),
-                          const SizedBox(width: 16),
-                          PropertyCard(
-                            image:
-                                'https://images.unsplash.com/photo-1493809842364-78817add7ffb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
-                            type: 'Villa',
-                            name: 'Skyview Residence',
-                            location: 'New York, USA',
-                            price: 2200,
-                            rating: 4.8,
-                            onTap: () {
-                              // Handle property tap
-                            },
-                            onFavoriteToggle: () {
-                              // Handle favorite toggle
-                            },
-                          ),
-                          const SizedBox(width: 16),
-                          PropertyCard(
-                            image:
-                                'https://images.unsplash.com/photo-1558036117-15d82a90b9b1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
-                            type: 'Apartment',
-                            name: 'Urban Loft',
-                            location: 'New York, USA',
-                            price: 1300,
-                            rating: 4.0,
-                            onTap: () {
-                              // Handle property tap
-                            },
-                            onFavoriteToggle: () {
-                              // Handle favorite toggle
-                            },
-                          ),
-                          const SizedBox(width: 16),
-                          PropertyCard(
-                            image:
-                                'https://images.unsplash.com/photo-1513584684374-8bab748fbf90?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
-                            type: 'Bungalow',
-                            name: 'Sunset Retreat',
-                            location: 'New York, USA',
-                            price: 1800,
-                            rating: 4.6,
-                            onTap: () {
-                              // Handle property tap
-                            },
-                            onFavoriteToggle: () {
-                              // Handle favorite toggle
-                            },
-                          ),
-                        ],
+                        itemCount: _recommendedProperties.length,
+                        itemBuilder: (context, index) {
+                          final property = _recommendedProperties[index];
+                          return Padding(
+                            padding: EdgeInsets.only(
+                              right: index == _recommendedProperties.length - 1
+                                  ? 0
+                                  : 16,
+                            ),
+                            child: PropertyCard3D(
+                              image: property['image'],
+                              type: property['type'],
+                              name: property['name'],
+                              location: property['location'],
+                              price: property['price'].toDouble(),
+                              rating: property['rating'].toDouble(),
+                              index: index,
+                              scrollController: _recommendedScrollController,
+                              onTap: () {
+                                // Handle property tap
+                              },
+                              onFavoriteToggle: () {
+                                // Handle favorite toggle
+                              },
+                            ),
+                          );
+                        },
                       ),
                     ),
             ),

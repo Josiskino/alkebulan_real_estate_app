@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:readmore/readmore.dart';
+import 'photo_view_screen.dart';
 
 class PropertyDetailScreen extends StatefulWidget {
   final String image;
@@ -92,15 +93,38 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen>
                       // Hero animation widget with current selected image
                       Hero(
                         tag: 'property-image-${widget.name}',
-                        child: CachedNetworkImage(
-                          imageUrl: _currentImage,
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) => Container(
-                            color: Colors.grey[200],
-                          ),
-                          errorWidget: (context, url, error) => Container(
-                            color: Colors.grey[300],
-                            child: const Icon(Icons.error, color: Colors.red),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              PageRouteBuilder(
+                                transitionDuration:
+                                    const Duration(milliseconds: 300),
+                                reverseTransitionDuration:
+                                    const Duration(milliseconds: 300),
+                                pageBuilder:
+                                    (context, animation, secondaryAnimation) {
+                                  // Find current image index
+                                  final currentIndex =
+                                      galleryImages.indexOf(_currentImage);
+                                  return PhotoViewScreen(
+                                    imageUrls: galleryImages,
+                                    initialIndex:
+                                        currentIndex >= 0 ? currentIndex : 0,
+                                  );
+                                },
+                              ),
+                            );
+                          },
+                          child: CachedNetworkImage(
+                            imageUrl: _currentImage,
+                            fit: BoxFit.cover,
+                            placeholder: (context, url) => Container(
+                              color: Colors.grey[200],
+                            ),
+                            errorWidget: (context, url, error) => Container(
+                              color: Colors.grey[300],
+                              child: const Icon(Icons.error, color: Colors.red),
+                            ),
                           ),
                         ),
                       ),
@@ -120,8 +144,28 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen>
                               ...List.generate(4, (index) {
                                 // Build the first 4 thumbnails
                                 return GestureDetector(
-                                  onTap: () =>
-                                      _updateMainImage(galleryImages[index]),
+                                  onTap: () {
+                                    // Change the main image
+                                    _updateMainImage(galleryImages[index]);
+                                    // Also allow to view in fullscreen with long press
+                                  },
+                                  onLongPress: () {
+                                    Navigator.of(context).push(
+                                      PageRouteBuilder(
+                                        transitionDuration:
+                                            const Duration(milliseconds: 300),
+                                        reverseTransitionDuration:
+                                            const Duration(milliseconds: 300),
+                                        pageBuilder: (context, animation,
+                                            secondaryAnimation) {
+                                          return PhotoViewScreen(
+                                            imageUrls: galleryImages,
+                                            initialIndex: index,
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  },
                                   child: Container(
                                     width: 64,
                                     height: 64,
@@ -230,12 +274,24 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen>
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            widget.type,
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.blue[600],
-                              fontWeight: FontWeight.w500,
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 6),
+                            decoration: BoxDecoration(
+                              color: Colors.blue[50],
+                              borderRadius: BorderRadius.circular(6),
+                              border: Border.all(
+                                color: Colors.blue[100]!,
+                                width: 1,
+                              ),
+                            ),
+                            child: Text(
+                              widget.type,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.blue[700],
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ),
                           Row(
@@ -244,9 +300,10 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen>
                               const SizedBox(width: 4),
                               Text(
                                 '${widget.rating} (${(widget.rating * 100).toInt()} reviews)',
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,
+                                  color: Colors.grey[700],
                                 ),
                               ),
                             ],
@@ -388,19 +445,81 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen>
                             const SizedBox(height: 12),
                             Row(
                               children: [
+                                // Agent avatar
                                 CircleAvatar(
                                   radius: 24,
                                   backgroundColor: Colors.grey[300],
                                   backgroundImage: CachedNetworkImageProvider(
-                                    'https://randomuser.me/api/portraits/men/32.jpg',
+                                    'https://randomuser.me/api/portraits/women/65.jpg',
                                   ),
                                 ),
                                 const SizedBox(width: 12),
-                                const Text(
-                                  'John Doe',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
+
+                                // Agent name and contact options
+                                Expanded(
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      // Agent name
+                                      const Text(
+                                        'John Doe',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+
+                                      // Contact buttons
+                                      Row(
+                                        children: [
+                                          // Phone button
+                                          GestureDetector(
+                                            onTap: () {
+                                              // Action à déclencher pour appeler l'agent
+                                              print('Appeler l\'agent');
+                                            },
+                                            child: Container(
+                                              padding: const EdgeInsets.all(10),
+                                              decoration: BoxDecoration(
+                                                color: Colors.blue[600],
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                              ),
+                                              child: const Icon(
+                                                Icons.phone,
+                                                color: Colors.white,
+                                                size: 20,
+                                              ),
+                                            ),
+                                          ),
+
+                                          const SizedBox(width: 12),
+
+                                          // Message button
+                                          GestureDetector(
+                                            onTap: () {
+                                              // Action à déclencher pour envoyer un message à l'agent
+                                              print(
+                                                  'Envoyer un message à l\'agent');
+                                            },
+                                            child: Container(
+                                              padding: const EdgeInsets.all(10),
+                                              decoration: BoxDecoration(
+                                                color: Colors.grey[200],
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                              ),
+                                              child: Icon(
+                                                Icons.message,
+                                                color: Colors.blue[600],
+                                                size: 20,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],
@@ -429,32 +548,58 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen>
                                 ),
                                 delegate: SliverChildBuilderDelegate(
                                   (context, index) {
-                                    return Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(12),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color:
-                                                Colors.black.withOpacity(0.05),
-                                            blurRadius: 4,
-                                            offset: const Offset(0, 2),
+                                    return GestureDetector(
+                                      onTap: () {
+                                        Navigator.of(context).push(
+                                          PageRouteBuilder(
+                                            transitionDuration: const Duration(
+                                                milliseconds: 300),
+                                            reverseTransitionDuration:
+                                                const Duration(
+                                                    milliseconds: 300),
+                                            pageBuilder: (context, animation,
+                                                secondaryAnimation) {
+                                              return PhotoViewScreen(
+                                                imageUrls: galleryImages,
+                                                initialIndex: index,
+                                              );
+                                            },
                                           ),
-                                        ],
-                                      ),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(12),
-                                        child: CachedNetworkImage(
-                                          imageUrl: galleryImages[index],
-                                          fit: BoxFit.cover,
-                                          placeholder: (context, url) =>
-                                              Container(
-                                            color: Colors.grey[200],
+                                        );
+                                      },
+                                      child: Hero(
+                                        tag: 'gallery-image-$index',
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.black
+                                                    .withOpacity(0.05),
+                                                blurRadius: 4,
+                                                offset: const Offset(0, 2),
+                                              ),
+                                            ],
                                           ),
-                                          errorWidget: (context, url, error) =>
-                                              Container(
-                                            color: Colors.grey[300],
-                                            child: const Icon(Icons.error,
-                                                color: Colors.red),
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            child: CachedNetworkImage(
+                                              imageUrl: galleryImages[index],
+                                              fit: BoxFit.cover,
+                                              placeholder: (context, url) =>
+                                                  Container(
+                                                color: Colors.grey[200],
+                                              ),
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      Container(
+                                                color: Colors.grey[300],
+                                                child: const Icon(Icons.error,
+                                                    color: Colors.red),
+                                              ),
+                                            ),
                                           ),
                                         ),
                                       ),

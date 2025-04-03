@@ -27,7 +27,7 @@ class AuthButton extends StatelessWidget {
   Widget _buildGoogleButton() {
     return SizedBox(
       width: double.infinity,
-      height: 54,
+      height: 56,
       child: ElevatedButton.icon(
         icon: Image.asset(
           'assets/images/google_logo.png',
@@ -36,7 +36,8 @@ class AuthButton extends StatelessWidget {
         ),
         label: Text(
           label,
-          style: const TextStyle(fontSize: 16),
+          style: const TextStyle(
+              fontSize: 16, fontWeight: FontWeight.w500, fontFamily: 'SF Pro'),
         ),
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
@@ -44,8 +45,9 @@ class AuthButton extends StatelessWidget {
           backgroundColor: Colors.white,
           elevation: 0,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(28),
           ),
+          padding: const EdgeInsets.symmetric(vertical: 14),
         ),
       ),
     );
@@ -54,12 +56,13 @@ class AuthButton extends StatelessWidget {
   Widget _buildEmailButton() {
     return SizedBox(
       width: double.infinity,
-      height: 54,
+      height: 56,
       child: OutlinedButton.icon(
         icon: const Icon(Icons.mail_outline, size: 24, color: Colors.white),
         label: Text(
           label,
-          style: const TextStyle(fontSize: 16),
+          style: const TextStyle(
+              fontSize: 16, fontWeight: FontWeight.w500, fontFamily: 'SF Pro'),
         ),
         onPressed: onPressed,
         style: OutlinedButton.styleFrom(
@@ -67,8 +70,9 @@ class AuthButton extends StatelessWidget {
           side: const BorderSide(color: Colors.white60, width: 1.5),
           elevation: 0,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(28),
           ),
+          padding: const EdgeInsets.symmetric(vertical: 14),
         ),
       ),
     );

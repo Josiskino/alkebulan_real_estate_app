@@ -69,7 +69,10 @@ class NearbyPropertyCard extends StatelessWidget {
                           child: Text(
                             type,
                             style: TextStyle(
-                                color: Colors.blue[600], fontSize: 12),
+                              color: Colors.blue[600],
+                              fontSize: 11,
+                              fontFamily: 'SF Pro',
+                            ),
                           ),
                         ),
                         if (rating > 0)
@@ -81,7 +84,10 @@ class NearbyPropertyCard extends StatelessWidget {
                               Text(
                                 rating.toString(),
                                 style: const TextStyle(
-                                    fontWeight: FontWeight.bold),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 13,
+                                  fontFamily: 'SF Pro',
+                                ),
                               ),
                             ],
                           ),
@@ -92,7 +98,8 @@ class NearbyPropertyCard extends StatelessWidget {
                       name,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 16,
+                        fontSize: 15,
+                        fontFamily: 'SF Pro',
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -103,8 +110,11 @@ class NearbyPropertyCard extends StatelessWidget {
                         const SizedBox(width: 4),
                         Text(
                           location,
-                          style:
-                              TextStyle(color: Colors.grey[600], fontSize: 14),
+                          style: TextStyle(
+                            color: Colors.grey[600],
+                            fontSize: 13,
+                            fontFamily: 'SF Pro',
+                          ),
                         ),
                       ],
                     ),

@@ -112,8 +112,11 @@ class PropertyCard extends StatelessWidget {
                         ),
                         child: Text(
                           type,
-                          style:
-                              TextStyle(color: Colors.blue[600], fontSize: 12),
+                          style: TextStyle(
+                            color: Colors.blue[600],
+                            fontSize: 11,
+                            fontFamily: 'SF Pro',
+                          ),
                         ),
                       ),
                       if (rating > 0)
@@ -122,9 +125,14 @@ class PropertyCard extends StatelessWidget {
                             const Icon(Icons.star,
                                 color: Colors.amber, size: 16),
                             const SizedBox(width: 4),
-                            Text('$rating',
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold)),
+                            Text(
+                              '$rating',
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 13,
+                                fontFamily: 'SF Pro',
+                              ),
+                            ),
                           ],
                         ),
                     ],
@@ -138,6 +146,7 @@ class PropertyCard extends StatelessWidget {
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
+                      fontFamily: 'SF Pro',
                     ),
                   ),
 
@@ -151,7 +160,11 @@ class PropertyCard extends StatelessWidget {
                       const SizedBox(width: 4),
                       Text(
                         location,
-                        style: TextStyle(color: Colors.grey[600], fontSize: 14),
+                        style: TextStyle(
+                          color: Colors.grey[600],
+                          fontSize: 13,
+                          fontFamily: 'SF Pro',
+                        ),
                       ),
                     ],
                   ),
@@ -166,12 +179,17 @@ class PropertyCard extends StatelessWidget {
                         style: TextStyle(
                           color: Colors.blue[600],
                           fontWeight: FontWeight.bold,
-                          fontSize: 16,
+                          fontSize: 15,
+                          fontFamily: 'SF Pro',
                         ),
                       ),
                       Text(
                         '/month',
-                        style: TextStyle(color: Colors.grey[600], fontSize: 14),
+                        style: TextStyle(
+                          color: Colors.grey[600],
+                          fontSize: 12,
+                          fontFamily: 'SF Pro',
+                        ),
                       ),
                     ],
                   ),

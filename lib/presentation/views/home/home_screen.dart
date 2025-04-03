@@ -98,11 +98,14 @@ class _HomeScreenState extends State<HomeScreen>
           children: [
             // Search bar
             SearchBarWithFilter(
-              onFilterPressed: () {
-                // Handle filter press
-              },
               onSearchTap: () {
-                // Handle search tap
+                // Navigate to search page
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Search page will be implemented soon'),
+                    duration: Duration(seconds: 2),
+                  ),
+                );
               },
             ),
 
@@ -129,6 +132,16 @@ class _HomeScreenState extends State<HomeScreen>
               ),
             ),
 
+            // Image Slider
+            const SizedBox(height: 8),
+            _isLoading
+                ? const ImageSliderShimmer()
+                : FadeTransition(
+                    opacity: _fadeAnimation,
+                    child: ImageSlider(images: _sliderImages),
+                  ),
+            const SizedBox(height: 16),
+
             // Recommended Property
             Padding(
               padding:
@@ -139,15 +152,20 @@ class _HomeScreenState extends State<HomeScreen>
                   const Text(
                     'Recommended Property',
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 20,
                       fontWeight: FontWeight.bold,
+                      fontFamily: 'SF Pro',
                     ),
                   ),
                   TextButton(
                     onPressed: () {},
                     child: Text(
                       'See all',
-                      style: TextStyle(color: Colors.blue[600]),
+                      style: TextStyle(
+                        color: Colors.blue[600],
+                        fontSize: 14,
+                        fontFamily: 'SF Pro',
+                      ),
                     ),
                   ),
                 ],
@@ -209,16 +227,6 @@ class _HomeScreenState extends State<HomeScreen>
                     ),
             ),
 
-            // Image Slider
-            const SizedBox(height: 24),
-            _isLoading
-                ? const ImageSliderShimmer()
-                : FadeTransition(
-                    opacity: _fadeAnimation,
-                    child: ImageSlider(images: _sliderImages),
-                  ),
-            const SizedBox(height: 8),
-
             // Nearby Property
             Padding(
               padding:
@@ -231,13 +239,18 @@ class _HomeScreenState extends State<HomeScreen>
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
+                      fontFamily: 'SF Pro',
                     ),
                   ),
                   TextButton(
                     onPressed: () {},
                     child: Text(
                       'See all',
-                      style: TextStyle(color: Colors.blue[600]),
+                      style: TextStyle(
+                        color: Colors.blue[600],
+                        fontSize: 14,
+                        fontFamily: 'SF Pro',
+                      ),
                     ),
                   ),
                 ],

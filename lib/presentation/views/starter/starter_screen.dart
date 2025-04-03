@@ -22,14 +22,43 @@ class StarterScreen extends StatelessWidget {
               children: [
                 const Spacer(flex: 2),
 
-                // Main text
-                const Text(
-                  'Find Your Dream\nHome on the Go',
-                  style: TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                    height: 1.2,
+                // Main text with gradient on "Find" and "Go"
+                RichText(
+                  text: TextSpan(
+                    style: const TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      height: 1.2,
+                      fontFamily: 'SF Pro',
+                    ),
+                    children: [
+                      TextSpan(
+                        text: 'Find',
+                        style: TextStyle(
+                          foreground: Paint()
+                            ..shader = LinearGradient(
+                              colors: [
+                                Colors.blue.shade300,
+                                Colors.blue.shade700,
+                              ],
+                            ).createShader(const Rect.fromLTWH(0, 0, 100, 40)),
+                        ),
+                      ),
+                      const TextSpan(text: ' Your Dream\nHome on the '),
+                      TextSpan(
+                        text: 'Go',
+                        style: TextStyle(
+                          foreground: Paint()
+                            ..shader = LinearGradient(
+                              colors: [
+                                Colors.blue.shade300,
+                                Colors.blue.shade700,
+                              ],
+                            ).createShader(const Rect.fromLTWH(0, 0, 50, 40)),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
 
@@ -41,6 +70,7 @@ class StarterScreen extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 16,
                     color: Colors.white70,
+                    fontFamily: 'SF Pro',
                   ),
                 ),
 
@@ -89,11 +119,23 @@ class StarterScreen extends StatelessWidget {
                         ),
                       );
                     },
-                    child: const Text(
-                      'Already have an account? Sign In',
-                      style: TextStyle(
-                        color: Colors.white70,
-                        fontSize: 14,
+                    child: RichText(
+                      text: TextSpan(
+                        style: const TextStyle(
+                          color: Colors.white70,
+                          fontSize: 14,
+                          fontFamily: 'SF Pro',
+                        ),
+                        children: [
+                          const TextSpan(text: 'Already have an account? '),
+                          TextSpan(
+                            text: 'Sign In',
+                            style: TextStyle(
+                              color: Colors.blue.shade400,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),

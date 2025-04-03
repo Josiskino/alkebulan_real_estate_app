@@ -183,6 +183,12 @@ class _HomeScreenState extends State<HomeScreen>
                         PropertyCardShimmer(),
                         SizedBox(width: 16),
                         PropertyCardShimmer(),
+                        SizedBox(width: 16),
+                        PropertyCardShimmer(),
+                        SizedBox(width: 16),
+                        PropertyCardShimmer(),
+                        SizedBox(width: 16),
+                        PropertyCardShimmer(),
                       ],
                     )
                   : FadeTransition(
@@ -215,6 +221,54 @@ class _HomeScreenState extends State<HomeScreen>
                             location: 'New York, USA',
                             price: 900,
                             rating: 4.2,
+                            onTap: () {
+                              // Handle property tap
+                            },
+                            onFavoriteToggle: () {
+                              // Handle favorite toggle
+                            },
+                          ),
+                          const SizedBox(width: 16),
+                          PropertyCard(
+                            image:
+                                'https://images.unsplash.com/photo-1493809842364-78817add7ffb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
+                            type: 'Villa',
+                            name: 'Skyview Residence',
+                            location: 'New York, USA',
+                            price: 2200,
+                            rating: 4.8,
+                            onTap: () {
+                              // Handle property tap
+                            },
+                            onFavoriteToggle: () {
+                              // Handle favorite toggle
+                            },
+                          ),
+                          const SizedBox(width: 16),
+                          PropertyCard(
+                            image:
+                                'https://images.unsplash.com/photo-1558036117-15d82a90b9b1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
+                            type: 'Apartment',
+                            name: 'Urban Loft',
+                            location: 'New York, USA',
+                            price: 1300,
+                            rating: 4.0,
+                            onTap: () {
+                              // Handle property tap
+                            },
+                            onFavoriteToggle: () {
+                              // Handle favorite toggle
+                            },
+                          ),
+                          const SizedBox(width: 16),
+                          PropertyCard(
+                            image:
+                                'https://images.unsplash.com/photo-1513584684374-8bab748fbf90?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
+                            type: 'Bungalow',
+                            name: 'Sunset Retreat',
+                            location: 'New York, USA',
+                            price: 1800,
+                            rating: 4.6,
                             onTap: () {
                               // Handle property tap
                             },
@@ -257,22 +311,98 @@ class _HomeScreenState extends State<HomeScreen>
               ),
             ),
 
-            // Nearby property card
+            // Nearby property cards
             _isLoading
-                ? const NearbyPropertyCardShimmer()
-                : FadeTransition(
-                    opacity: _fadeAnimation,
-                    child: NearbyPropertyCard(
-                      image:
-                          'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
-                      type: 'Villa',
-                      name: 'BlissView Villa',
-                      location: 'New York, USA',
-                      rating: 4.9,
-                      onTap: () {
-                        // Handle property tap
-                      },
-                    ),
+                ? Column(
+                    children: const [
+                      NearbyPropertyCardShimmer(),
+                      SizedBox(height: 12),
+                      NearbyPropertyCardShimmer(),
+                      SizedBox(height: 12),
+                      NearbyPropertyCardShimmer(),
+                      SizedBox(height: 12),
+                      NearbyPropertyCardShimmer(),
+                      SizedBox(height: 12),
+                      NearbyPropertyCardShimmer(),
+                    ],
+                  )
+                : Column(
+                    children: [
+                      FadeTransition(
+                        opacity: _fadeAnimation,
+                        child: NearbyPropertyCard(
+                          image:
+                              'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
+                          type: 'Villa',
+                          name: 'BlissView Villa',
+                          location: 'New York, USA',
+                          rating: 4.9,
+                          onTap: () {
+                            // Handle property tap
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      FadeTransition(
+                        opacity: _fadeAnimation,
+                        child: NearbyPropertyCard(
+                          image:
+                              'https://images.unsplash.com/photo-1574362848149-11496d93a7c7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
+                          type: 'Apartment',
+                          name: 'Riverside Apartments',
+                          location: 'New York, USA',
+                          rating: 4.3,
+                          onTap: () {
+                            // Handle property tap
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      FadeTransition(
+                        opacity: _fadeAnimation,
+                        child: NearbyPropertyCard(
+                          image:
+                              'https://images.unsplash.com/photo-1502005097973-6a7082348e28?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
+                          type: 'Home',
+                          name: 'Maple Grove House',
+                          location: 'New York, USA',
+                          rating: 4.1,
+                          onTap: () {
+                            // Handle property tap
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      FadeTransition(
+                        opacity: _fadeAnimation,
+                        child: NearbyPropertyCard(
+                          image:
+                              'https://images.unsplash.com/photo-1494526585095-c41746248156?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
+                          type: 'Villa',
+                          name: 'Harbor Luxury Villa',
+                          location: 'New York, USA',
+                          rating: 4.7,
+                          onTap: () {
+                            // Handle property tap
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      FadeTransition(
+                        opacity: _fadeAnimation,
+                        child: NearbyPropertyCard(
+                          image:
+                              'https://images.unsplash.com/photo-1507149833265-60c372daea22?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80',
+                          type: 'Bungalow',
+                          name: 'Pinecrest Bungalow',
+                          location: 'New York, USA',
+                          rating: 4.4,
+                          onTap: () {
+                            // Handle property tap
+                          },
+                        ),
+                      ),
+                    ],
                   ),
 
             // Add some bottom padding

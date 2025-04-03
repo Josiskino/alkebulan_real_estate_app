@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../../../widgets/shimmer_widget.dart';
+import '../../../views/detail/property_detail_screen.dart';
 
 class PropertyCard3D extends StatefulWidget {
   final String image;
@@ -103,7 +104,20 @@ class _PropertyCard3DState extends State<PropertyCard3D> {
         ..translate(0.0, 0.0, _translateZ),
       alignment: Alignment.center,
       child: GestureDetector(
-        onTap: widget.onTap,
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => PropertyDetailScreen(
+                image: widget.image,
+                type: widget.type,
+                name: widget.name,
+                location: widget.location,
+                price: widget.price,
+                rating: widget.rating,
+              ),
+            ),
+          );
+        },
         child: Container(
           width: 220,
           decoration: BoxDecoration(
@@ -121,27 +135,31 @@ class _PropertyCard3DState extends State<PropertyCard3D> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Property image
+              // Property image with Hero animation
               Stack(
                 children: [
-                  ClipRRect(
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(12),
-                      topRight: Radius.circular(12),
-                    ),
-                    child: CachedNetworkImage(
-                      imageUrl: widget.image,
-                      height: 120,
-                      width: 220,
-                      fit: BoxFit.cover,
-                      placeholder: (context, url) => ShimmerWidget.rectangular(
-                        height: 120,
+                  Hero(
+                    tag: 'property-image-${widget.name}',
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(12),
+                        topRight: Radius.circular(12),
                       ),
-                      errorWidget: (context, url, error) => Container(
+                      child: CachedNetworkImage(
+                        imageUrl: widget.image,
                         height: 120,
                         width: 220,
-                        color: Colors.grey[300],
-                        child: const Icon(Icons.error, color: Colors.red),
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) =>
+                            ShimmerWidget.rectangular(
+                          height: 120,
+                        ),
+                        errorWidget: (context, url, error) => Container(
+                          height: 120,
+                          width: 220,
+                          color: Colors.grey[300],
+                          child: const Icon(Icons.error, color: Colors.red),
+                        ),
                       ),
                     ),
                   ),
